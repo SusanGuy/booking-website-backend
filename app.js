@@ -3,6 +3,7 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,6 +34,6 @@ require('./routes')(app, connection);
 /**
  * START THE SERVER
  */
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log('SERVER STARTED at port 3000');
 });
