@@ -5,8 +5,8 @@ image: node:8.10.0
 # Test - Run tests
 # Deploy - Deploy applicatino to S3/ElasticBeanstalk
 stages:
-- build
 - test
+- build
 - deploy
 
 # Configuration
@@ -17,26 +17,26 @@ variables:
   S3_BUCKET: "BookingApp" # S3 bucket for ElasticBeanstalk
   S3_KEY: "backend" # S3 folder to upload build app
 
-# Job: Build
-# Installs npm packages, transpiles ES6 -> ES5
-# Passes node_modules/, dist/, onto next steps using artifacts
-build:
-  stage: build
-  script:
-  - npm install
-  - ./bin/build
-  artifacts:
-    paths:
-    - node_modules/
-    - dist/
-
 # Job: Test
 # Run tests against our application
 # If this fails, we do not deploy
 test:
   stage: test
   script:
-  - ./bin/test
+  - yarn test
+
+# Job: Build
+# Installs npm packages, transpiles ES6 -> ES5
+# Passes node_modules/, dist/, onto next steps using artifacts
+build:
+  stage: build
+  script:
+  - yarn
+  - yarn build
+  artifacts:
+    paths:
+    - node_modules/
+    - dist/
 
 # Job: Deploy
 # Zips the contents of our built application, uploads to S3
