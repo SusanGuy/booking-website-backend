@@ -24,6 +24,8 @@ variables:
 # Passes node_modules/, dist/, onto next steps using artifacts
 build:
   stage: build
+  tags:
+    - nodejs-app
   script:
     - npm install
     - ./bin/build
@@ -31,8 +33,8 @@ build:
     paths:
       - node_modules/
       - dist/
-  tags:
-    - nodejs-app
+  only:
+    - tags
 
 # Job: Test
 # Run tests against our application
@@ -43,13 +45,18 @@ test:
     - ./bin/test
   tags:
     - nodejs-app
+  only:
+    - tags
 
 # Job: Deploy
 # Zips the contents of our built application, uploads to S3
 # Configures a new EB version and switches to that version
 deploy:
   stage: deploy
-  script:
-    - ./bin/deploy
   tags:
     - nodejs-app
+  script:
+    - ./bin/deploy
+  only:
+    - tags
+  when: on_success
