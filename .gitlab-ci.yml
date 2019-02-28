@@ -5,14 +5,12 @@ image: node:8.10.0
 # Test - Run tests
 # Deploy - Deploy applicatino to S3/ElasticBeanstalk
 stages:
-  - build
-  - test
-  - deploy
+- build
+- test
+- deploy
 
 # Configuration
 variables:
-  AWS_ACCESS_KEY_ID: "AKIAJ7VXFZW3CP2D2PWQ" # Should have access to both S3/EB
-  AWS_SECRET_ACCESS_KEY: "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"
   AWS_DEFAULT_REGION: "us-east-2"
   EB_APP_NAME: "backend" # ELasticBeanstalk Application Name
   EB_APP_ENV: "BookingApp-dev" # ElasticBeanstalk Application ENvironment
@@ -25,16 +23,16 @@ variables:
 build:
   stage: build
   tags:
-    - nodejs-app
+  - nodejs-app
   script:
-    - npm install
-    - ./bin/build
+  - npm install
+  - ./bin/build
   artifacts:
     paths:
-      - node_modules/
-      - dist/
+    - node_modules/
+    - dist/
   only:
-    - tags
+  - tags
 
 # Job: Test
 # Run tests against our application
@@ -42,11 +40,11 @@ build:
 test:
   stage: test
   script:
-    - ./bin/test
+  - ./bin/test
   tags:
-    - nodejs-app
+  - nodejs-app
   only:
-    - tags
+  - tags
 
 # Job: Deploy
 # Zips the contents of our built application, uploads to S3
@@ -54,9 +52,9 @@ test:
 deploy:
   stage: deploy
   tags:
-    - nodejs-app
+  - nodejs-app
   script:
-    - ./bin/deploy
+  - ./bin/deploy
   only:
-    - tags
+  - tags
   when: on_success
