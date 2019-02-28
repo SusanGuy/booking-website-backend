@@ -5,7 +5,7 @@ image: node:8.10.0
 # Test - Run tests
 # Deploy - Deploy applicatino to S3/ElasticBeanstalk
 stages:
-- build
+- start
 - deploy
 
 # Configuration
@@ -19,15 +19,13 @@ variables:
 # Job: Build
 # Installs npm packages, transpiles ES6 -> ES5
 # Passes node_modules/, dist/, onto next steps using artifacts
-build:
-  stage: build
+start:
+  stage: start
   script:
-  - yarn
-  - yarn build
+  - npm install
   artifacts:
     paths:
     - node_modules/
-    - dist/
 
 # Job: Deploy
 # Zips the contents of our built application, uploads to S3
