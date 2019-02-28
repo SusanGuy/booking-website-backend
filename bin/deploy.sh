@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install AWS CLI
-curl "https://bootstrap.pypa.io/get-pip-py" -o "get-pip.py"
-python get-pip.py
+curl "https://bootstrap.pypa.io/2.6/get-pip.py" -o "get-pip.py" | python
+sudo python get-pip.py
 pip install awscli --ignore-installed six
 
 # Install "zip"
@@ -14,7 +14,7 @@ ts=`date +%s`
 fn="$EB_APP_NAME-$ts.zip"
 find ./ -path '*/node_modules/*' -prune -o -path '*/\.git*' -prune -o -type f -print | S3_KEY="$S3_KEY/$fn"
 # Copy the app to S3
-aws s3 cp $fn "s3://$S3_BUCKET --recursive --include "*"
+aws s3 cp $fn "s3://$S3_BUCKET" --recursive --include "*"
 
 # Create a new version in eb
 echo "Creating ElastickBeanstalk Application Version ..."
@@ -31,4 +31,4 @@ aws elasticbeanstalk update-environment \
   --environment-name $EB_APP_ENV \
   --version-label "$EB_APP_NAME-$ts"
 
-echo "Done! Deployed version $EB_APP_NAME-$rs"
+echo "Done! Deployed version $EB_APP_NAME-$ts"
