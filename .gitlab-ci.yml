@@ -5,7 +5,6 @@ image: node:8.10.0
 # Test - Run tests
 # Deploy - Deploy applicatino to S3/ElasticBeanstalk
 stages:
-- test
 - build
 - deploy
 
@@ -16,14 +15,6 @@ variables:
   EB_APP_ENV: "BookingApp-dev" # ElasticBeanstalk Application ENvironment
   S3_BUCKET: "BookingApp" # S3 bucket for ElasticBeanstalk
   S3_KEY: "backend" # S3 folder to upload build app
-
-# Job: Test
-# Run tests against our application
-# If this fails, we do not deploy
-test:
-  stage: test
-  script:
-  - yarn test
 
 # Job: Build
 # Installs npm packages, transpiles ES6 -> ES5
