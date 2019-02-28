@@ -14,7 +14,7 @@ ts=`date +%s`
 fn="$EB_APP_NAME-$ts.zip"
 find ./ -path '*/node_modules/*' -prune -o -path '*/\.git*' -prune -o -type f -print | S3_KEY="$S3_KEY/$fn"
 # Copy the app to S3
-aws s3 cp $fn "s3://$S3_BUCKET/$S3_KEY"
+aws s3 cp $fn "s3://$S3_BUCKET --recursive --include "*"
 
 # Create a new version in eb
 echo "Creating ElastickBeanstalk Application Version ..."

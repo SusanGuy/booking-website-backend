@@ -13,7 +13,7 @@ variables:
   AWS_DEFAULT_REGION: "us-east-2"
   EB_APP_NAME: "backend" # ELasticBeanstalk Application Name
   EB_APP_ENV: "BookingApp-dev" # ElasticBeanstalk Application ENvironment
-  S3_BUCKET: "BookingApp" # S3 bucket for ElasticBeanstalk
+  S3_BUCKET: "giwoolee-backend" # S3 bucket for ElasticBeanstalk
   S3_KEY: "backend" # S3 folder to upload build app
 
 # Job: Build
