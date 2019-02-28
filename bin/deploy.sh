@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Install AWS CLI
+apt-get install sudo -y
 curl "https://bootstrap.pypa.io/2.6/get-pip.py" -o "get-pip.py" | python
 sudo python get-pip.py
 pip install awscli --ignore-installed six
@@ -22,7 +23,7 @@ aws elasticbeanstalk create-application-version \
   --application-name $EB_APP_NAME
   --version-label "$EB_APP_NAME-$ts" \
   --description "$EB_APP_NAME-$ts" \
-  --source-bundle S3Bucket="$S3_BUCKET", S3Key="$S3_KEY" --auto-create-application
+  --source-bundle S3Bucket="$S3_BUCKET" --auto-create-application
 
 # Update to that version
 echo "Updating ElasticBeanstalk Application Version..."
