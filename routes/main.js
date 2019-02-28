@@ -12,6 +12,5 @@ module.exports = app => {
       </html>
 
           `);
-    console.log('Hello');
   });
 };

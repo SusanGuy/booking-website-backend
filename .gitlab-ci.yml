@@ -1,0 +1,55 @@
+# Gitlab CI Docker Image
+image: node:8.10.0
+
+# Build - Build necessary JS files
+# Test - Run tests
+# Deploy - Deploy applicatino to S3/ElasticBeanstalk
+stages:
+  - build
+  - test
+  - deploy
+
+# Configuration
+variables:
+  AWS_ACCESS_KEY_ID: "AKIAJ7VXFZW3CP2D2PWQ" # Should have access to both S3/EB
+  AWS_SECRET_ACCESS_KEY: "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"
+  AWS_DEFAULT_REGION: "us-east-2"
+  EB_APP_NAME: "backend" # ELasticBeanstalk Application Name
+  EB_APP_ENV: "BookingApp-dev" # ElasticBeanstalk Application ENvironment
+  S3_BUCKET: "BookingApp" # S3 bucket for ElasticBeanstalk
+  S3_KEY: "backend" # S3 folder to upload build app
+
+# Job: Build
+# Installs npm packages, transpiles ES6 -> ES5
+# Passes node_modules/, dist/, onto next steps using artifacts
+build:
+  stage: build
+  script:
+    - npm install
+    - ./bin/build
+  artifacts:
+    paths:
+      - node_modules/
+      - dist/
+  tags:
+    - nodejs-app
+
+# Job: Test
+# Run tests against our application
+# If this fails, we do not deploy
+test:
+  stage: test
+  script:
+    - ./bin/test
+  tags:
+    - nodejs-app
+
+# Job: Deploy
+# Zips the contents of our built application, uploads to S3
+# Configures a new EB version and switches to that version
+deploy:
+  stage: deploy
+  script:
+    - ./bin/deploy
+  tags:
+    - nodejs-app

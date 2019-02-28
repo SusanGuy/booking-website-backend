@@ -23,6 +23,7 @@ module.exports = (app, connection) => {
       [request.body.Name],
       function(error, results) {
         if (error) throw error;
+        response.send({ result: 'success' });
       }
     );
   });
