@@ -44,6 +44,6 @@ test:
 deploy:
   stage: deploy
   script:
-  - ./bin/deploy
+  - ./bin/deploy.sh
   only:
   - master
