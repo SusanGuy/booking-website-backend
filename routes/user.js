@@ -1,41 +1,9 @@
-module.exports = (app, connection) => {
-  app.get('/user', function(request, response) {
-    connection.query('SELECT * FROM Sample_User', function(error, results) {
-      if (error) throw error;
-      response.send(results);
-    });
-  });
+const usersController = require('../controller');
 
-  app.delete('/user/:ID', function(request, response) {
-    connection.query(
-      'DELETE FROM Sample_User where ID= ?',
-      [request.params.ID],
-      function(error, results) {
-        if (error) throw error;
-        response.send({ results: results });
-      }
-    );
-  });
-
-  app.post('/user', function(request, response) {
-    connection.query(
-      'INSERT INTO Sample_User(Name) VALUES(?)',
-      [request.body.Name],
-      function(error, results) {
-        if (error) throw error;
-        response.send({ result: 'success' });
-      }
-    );
-  });
-
-  app.put('/user', function(request, response) {
-    connection.query(
-      'UPDATE `Sample_User` SET `Name` = ? where `ID` = ?',
-      [request.body.Name, request.body.ID],
-      function(error, results) {
-        if (error) throw error;
-        response.send(results);
-      }
-    );
-  });
+module.exports = (app, db) => {
+  app.get('/users', (req, res) => usersController.getAll(req, res, db));
+  app.get('/users/:id', (req, res) => usersController.get(req, res, db));
+  app.delete('/users/:id', (req, res) => usersController.delete(req, res, db));
+  app.post('/users', (req, res) => usersController.add(req, res, db));
+  app.put('/users/:id', (req, res) => usersController.update(req, res, db));
 };
