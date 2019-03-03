@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const KEYS = require('../config');
 
+console.log('KEYS', KEYS);
+
 /**
  * Amazon Web Services - RDS - MySQL
  */
