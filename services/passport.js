@@ -32,7 +32,7 @@ module.exports = db => {
         proxy: true,
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log('profile.image: ', profile.image);
+        console.log('profile: ', profile);
 
         controller
           .get(
