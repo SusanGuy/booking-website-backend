@@ -12,6 +12,13 @@ env.js // Redux Thunk (with Args)
 app.js // NodeJS Express
 ```
 
+# User Authentication
+
+#### OAUth 2.0
+
+`/auth/google`
+![screen shot 2019-03-03 at 5 16 12 am](https://user-images.githubusercontent.com/16644017/53694371-88f80600-3d73-11e9-8044-fffb8ae37f38.png)
+
 # Technology Stack
 
 - [NodeJS](https://nodejs.org) For rapid API setup.

@@ -2,7 +2,7 @@
 /node_modules
 
 # Keys
-/config/*
+dev.js
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

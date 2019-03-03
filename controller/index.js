@@ -1,4 +1,4 @@
-const handleApiResults = (err, results, res, section) => {
+const handleApiResults = (err, results, res, section, resolve, reject) => {
   if (err) {
     let apiResult = {};
 
@@ -14,7 +14,11 @@ const handleApiResults = (err, results, res, section) => {
     //send the results (apiResult) as JSON to Express (res)
     //Express uses res.json() to send JSON to client
     //you will see res.send() used for HTML
-    res.json(apiResult);
+    if (res) {
+      return res.json(apiResult);
+    } else {
+      return reject(apiResult);
+    }
   }
 
   let resultJson = JSON.stringify(results);
@@ -33,66 +37,68 @@ const handleApiResults = (err, results, res, section) => {
   //add our JSON results to the data table
   apiResult.data = resultJson;
 
-  res.json(apiResult);
+  if (res) {
+    return res.json(apiResult);
+  } else {
+    return resolve(apiResult);
+  }
 };
 
 module.exports = {
-  getAll: (req, res, db) => {
-    let pathname = req._parsedUrl.pathname.split('/');
-    let section = pathname[1];
+  getAll: (params, res, db) => {
+    let section = params.path.section;
 
     db.query(`SELECT * FROM ${section}`, (err, results) =>
       handleApiResults(err, results, res, section)
     );
   },
-  get: (req, res, db) => {
-    let pathname = req._parsedUrl.pathname.split('/');
-    let section = pathname[1];
-    let id = pathname[2];
+  get: (params, res, db) => {
+    return new Promise((resolve, reject) => {
+      let section = params.path.section;
+      let id_clause = params.path.id_clause;
 
-    db.query(`SELECT * FROM ${section} WHERE user_id=${id}`, (err, results) =>
+      db.query(`SELECT * FROM ${section} WHERE ${id_clause}`, (err, results) =>
+        handleApiResults(err, results, res, section, resolve, reject)
+      );
+    });
+  },
+  delete: (params, res, db) => {
+    let section = params.path.section;
+    let id_clause = params.path.id_clause;
+
+    db.query(`DELETE FROM ${section} WHERE ${id_clause}`, (err, results) =>
       handleApiResults(err, results, res, section)
     );
   },
-  delete: (req, res, db) => {
-    let pathname = req._parsedUrl.pathname.split('/');
-    let section = pathname[1];
-    let id = pathname[2];
+  save: (params, res, db) => {
+    return new Promise((resolve, reject) => {
+      let section = params.path.section;
+      let body = params.body;
 
-    db.query(`DELETE FROM ${section} WHERE user_id=${id}`, (err, results) =>
-      handleApiResults(err, results, res, section)
-    );
+      let joinedFields = Object.keys(body).join(', ');
+      let joinedValues = "'" + Object.values(body).join("','") + "'";
+
+      db.query(
+        `INSERT INTO ${section}(${joinedFields}) VALUES(${joinedValues})`,
+        (err, results) =>
+          handleApiResults(err, results, res, section, resolve, reject)
+      );
+    });
   },
-  add: (req, res, db) => {
-    let pathname = req._parsedUrl.pathname.split('/');
-    let section = pathname[1];
-    let params = req.body;
+  update: (params, res, db) => {
+    let section = params.path.section;
+    let id_clause = params.path.id_clause;
+    let body = params.body;
 
-    let joinedFields = Object.keys(params).join(', ');
-    let joinedValues = "'" + Object.values(params).join("','") + "'";
-
-    db.query(
-      `INSERT INTO ${section}(${joinedFields}) VALUES(${joinedValues})`,
-      (err, results) => handleApiResults(err, results, res, section)
-    );
-  },
-  update: (req, res, db) => {
-    let pathname = req._parsedUrl.pathname.split('/');
-    let section = pathname[1];
-    let id = pathname[2];
-    let params = req.body;
-
-    let columns = Object.keys(params);
+    let columns = Object.keys(body);
     let statements = [];
     columns.map(column => {
-      let statement = `${column} = '${params[column]}'`;
+      let statement = `${column} = '${body[column]}'`;
       statements.push(statement);
     });
 
-    console.log('statements', statements);
-
     db.query(
-      `UPDATE ${section} SET ${statements.join(', ')} WHERE user_id=${id}`,
+      `UPDATE ${section} SET ${statements.join(', ')} WHERE ${id_clause}`,
       (err, results) => handleApiResults(err, results, res, section)
     );
   },

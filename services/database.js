@@ -5,9 +5,9 @@ const KEYS = require('../config');
  * Amazon Web Services - RDS - MySQL
  */
 const connection = mysql.createConnection({
-  host: KEYS.DATABASE.HOST,
-  database: KEYS.DATABASE.NAME,
-  user: KEYS.DATABASE.USER,
-  password: KEYS.DATABASE.PASSWORD,
+  host: KEYS.MYSQL_HOST,
+  database: KEYS.MYSQL_DB_NAME,
+  user: KEYS.MYSQL_USER,
+  password: KEYS.MYSQL_PASSWORD,
 });
 module.exports = connection;
