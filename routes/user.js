@@ -12,13 +12,13 @@ const getParams = req => {
 };
 
 module.exports = (app, db) => {
-  app.get('/users', (req, res) => controller.getAll(getParams(req), res, db));
-  app.get('/users/:id', (req, res) => controller.get(getParams(req), res, db));
-  app.delete('/users/:id', (req, res) =>
+  app.get('/user', (req, res) => controller.getAll(getParams(req), res, db));
+  app.get('/user/:id', (req, res) => controller.get(getParams(req), res, db));
+  app.delete('/user/:id', (req, res) =>
     controller.delete(getParams(req), res, db)
   );
-  app.post('/users', (req, res) => controller.save(getParams(req), res, db));
-  app.put('/users/:id', (req, res) =>
+  app.post('/user', (req, res) => controller.save(getParams(req), res, db));
+  app.put('/user/:id', (req, res) =>
     controller.update(getParams(req), res, db)
   );
 };

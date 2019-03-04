@@ -5,15 +5,15 @@ const controller = require('../controller');
 
 module.exports = db => {
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user.user_id);
   });
   passport.deserializeUser((id, done) => {
     controller
       .get(
         {
           path: {
-            section: 'users',
-            id_clause: `id=${id}`,
+            section: 'user',
+            id_clause: `user_id=${id}`,
           },
         },
         null,
@@ -38,7 +38,7 @@ module.exports = db => {
           .get(
             {
               path: {
-                section: 'users',
+                section: 'user',
                 id_clause: `google_id=${profile.id}`,
               },
             },
@@ -51,12 +51,12 @@ module.exports = db => {
               // User exists
               done(null, res.data[0]);
             } else {
-              // Users does NOT exist
+              // User does NOT exist
               controller
                 .save(
                   {
                     path: {
-                      section: 'users',
+                      section: 'user',
                     },
                     body: {
                       first_name: profile.name.givenName,
@@ -70,7 +70,7 @@ module.exports = db => {
                   db
                 )
                 .then(res => {
-                  done(null, { id: res.data.insertId });
+                  done(null, {user_id: res.data.insertId });
                 })
                 .catch(err => {
                   done(null, { err: err });
