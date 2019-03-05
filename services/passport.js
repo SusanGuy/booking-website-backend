@@ -21,6 +21,10 @@ module.exports = db => {
       )
       .then(res => {
         done(null, { user: res.data[0] });
+      })
+      .catch(err => {
+        console.log('Deserialize GET ERROR: ', err);
+        done(null, err);
       });
   });
   passport.use(
@@ -70,14 +74,16 @@ module.exports = db => {
                   db
                 )
                 .then(res => {
-                  done(null, {user_id: res.data.insertId });
+                  done(null, { user_id: res.data.insertId });
                 })
                 .catch(err => {
+                  console.log('ERROR: ', err);
                   done(null, { err: err });
                 });
             }
           })
           .catch(err => {
+            console.log('ERROR: ', err);
             done(null, { err: err });
           });
       }

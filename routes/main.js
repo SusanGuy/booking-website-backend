@@ -27,7 +27,8 @@ const html = `
 `;
 
 module.exports = app => {
-  app.get('/', function(request, response) {
+  app.get('/', (request, response) => {
+    console.log('requested');
     response.send(html);
   });
 };

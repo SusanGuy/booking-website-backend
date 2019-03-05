@@ -5,7 +5,7 @@ const getParams = req => {
   return {
     path: {
       section: path[1],
-      id_clause: `id=${path[2]}`,
+      id_clause: `user_id=${path[2]}`,
     },
     body: req.body,
   };

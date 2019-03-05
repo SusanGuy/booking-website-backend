@@ -1,5 +1,6 @@
 // prod.js - Development keys in here
- module.exports = {
+module.exports = {
+  GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   COOKIE_KEY: process.env.COOKIE_KEY,
@@ -8,4 +9,3 @@
   MYSQL_USER: process.env.MYSQL_USER,
   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
 };
- 

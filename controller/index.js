@@ -57,7 +57,7 @@ module.exports = {
       let section = params.path.section;
       let id_clause = params.path.id_clause;
 
-      db.query(`SELECT * FROM ${section} WHERE ${section+"_"+id_clause}`, (err, results) =>
+      db.query(`SELECT * FROM ${section} WHERE ${id_clause}`, (err, results) =>
         handleApiResults(err, results, res, section, resolve, reject)
       );
     });
@@ -66,8 +66,9 @@ module.exports = {
     let section = params.path.section;
     let id_clause = params.path.id_clause;
 
-    db.query(`DELETE FROM ${section} WHERE ${section+"_"+id_clause}`, (err, results) =>
-      handleApiResults(err, results, res, section)
+    db.query(
+      `DELETE FROM ${section} WHERE ${section + '_' + id_clause}`,
+      (err, results) => handleApiResults(err, results, res, section)
     );
   },
   save: (params, res, db) => {
@@ -77,7 +78,7 @@ module.exports = {
 
       let joinedFields = Object.keys(body).join(', ');
       let joinedValues = "'" + Object.values(body).join("','") + "'";
-      console.log("Values are ", joinedValues);
+      console.log('Values are ', joinedValues);
 
       db.query(
         `INSERT INTO ${section}(${joinedFields}) VALUES(${joinedValues})`,
@@ -99,7 +100,9 @@ module.exports = {
     });
 
     db.query(
-      `UPDATE ${section} SET ${statements.join(', ')} WHERE ${section+"_"+id_clause}`,
+      `UPDATE ${section} SET ${statements.join(', ')} WHERE ${section +
+        '_' +
+        id_clause}`,
       (err, results) => handleApiResults(err, results, res, section)
     );
   },
