@@ -11,9 +11,21 @@ const app = express();
 // EXPRESS APP SETUP
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
 app.use(
-  // Last 30 days before it expires
+  cors({
+    origin: true,
+    methods: 'GET, HEAD. PUT, PATCH, POST, DELETE',
+    credentials: true,
+    exposedHeaders: ['x-auth-token'],
+  })
+);
+app.use(
+  ///// Last 30 days before it expires (in Miliseconds)
+  // 30 Days
+  // 24 Hours
+  // 60 Minutes (1 Hour)
+  // 60 Seconds
+  // 1000 Miliseconds
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [KEYS.COOKIE_KEY],

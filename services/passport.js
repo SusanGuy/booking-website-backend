@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleTokenStrategy = require('passport-google-token').Strategy;
 const KEYS = require('../config');
 const controller = require('../controller');
 
@@ -23,21 +23,16 @@ module.exports = db => {
         done(null, { user: res.data[0] });
       })
       .catch(err => {
-        console.log('Deserialize GET ERROR: ', err);
         done(null, err);
       });
   });
   passport.use(
-    new GoogleStrategy(
+    new GoogleTokenStrategy(
       {
         clientID: KEYS.GOOGLE_CLIENT_ID,
         clientSecret: KEYS.GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback',
-        proxy: true,
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log('profile: ', profile);
-
         controller
           .get(
             {
@@ -50,7 +45,6 @@ module.exports = db => {
             db
           )
           .then(res => {
-            console.log('passport auth res', res);
             if (res.data && res.data.length > 0) {
               // User exists
               done(null, res.data[0]);
@@ -66,7 +60,7 @@ module.exports = db => {
                       first_name: profile.name.givenName,
                       last_name: profile.name.familyName,
                       email: profile.emails[0].value,
-                      profile_pic: profile.image ? profile.image.url : '',
+                      profile_pic: profile._json ? profile._json.picture : '',
                       google_id: profile.id,
                     },
                   },

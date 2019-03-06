@@ -1,9 +1,13 @@
+const jwt = require('jsonwebtoken');
+const KEYS = require('../config');
+
 let createToken = auth => {
+  console.log('auth', auth);
   return jwt.sign(
     {
-      id: auth.id,
+      user_id: auth.user_id,
     },
-    'my-secret',
+    KEYS.AUTH_TOKEN_KEY,
     {
       expiresIn: 60 * 120,
     }

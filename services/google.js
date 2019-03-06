@@ -7,11 +7,12 @@ const googleMapsClient = require('@google/maps').createClient({
 
 module.exports = {
   fetchGoogleAutoCompleteAPI: (req, res) => {
+    const input = req.body.place;
     https
       .get(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${
           KEYS.GOOGLE_API_KEY
-        }&input=Oxford`,
+        }&input=${input}`,
         response => {
           let body = '';
           response.on('data', chunk => {
@@ -25,16 +26,18 @@ module.exports = {
         }
       )
       .on('error', err => {
-        console.log('err', err);
+        res.json(err.message);
       });
   },
   fetchGoogleAPI: (req, res) => {
+    const location = req.body.location;
+
     // Geocode an address.
     googleMapsClient.places(
       {
-        location: '1600 Amphitheatre Parkway, Mountain View, CA',
+        location: location,
       },
-      function(err, response) {
+      (err, response) => {
         if (!err) {
           const googleRes = response.json.results;
           res.json(googleRes);

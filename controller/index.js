@@ -78,7 +78,6 @@ module.exports = {
 
       let joinedFields = Object.keys(body).join(', ');
       let joinedValues = "'" + Object.values(body).join("','") + "'";
-      console.log('Values are ', joinedValues);
 
       db.query(
         `INSERT INTO ${section}(${joinedFields}) VALUES(${joinedValues})`,
