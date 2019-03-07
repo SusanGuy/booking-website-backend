@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const KEYS = require('../config');
 
 let createToken = auth => {
-  console.log('auth', auth);
   return jwt.sign(
     {
       user_id: auth.user_id,
