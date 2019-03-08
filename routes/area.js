@@ -11,7 +11,7 @@ const getParams = req => {
   };
 };
 
-module.exports = (app, db) => {
+module.exports = ({ app, db }) => {
   app.get('/area', (req, res) => controller.getAll(getParams(req), res, db));
   app.get('/area/:id', (req, res) => controller.get(getParams(req), res, db));
   app.delete('/area/:id', (req, res) =>

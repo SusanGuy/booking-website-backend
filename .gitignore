@@ -8,3 +8,8 @@ dev.js
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Log Files
+combined.Log
+error.log
+info.log

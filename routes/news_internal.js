@@ -11,13 +11,19 @@ const getParams = req => {
   };
 };
 
-module.exports = (app, db) => {
-  app.get('/news_internal', (req, res) => controller.getAll(getParams(req), res, db));
-  app.get('/news_internal/:id', (req, res) => controller.get(getParams(req), res, db));
+module.exports = ({ app, db }) => {
+  app.get('/news_internal', (req, res) =>
+    controller.getAll(getParams(req), res, db)
+  );
+  app.get('/news_internal/:id', (req, res) =>
+    controller.get(getParams(req), res, db)
+  );
   app.delete('/news_internal/:id', (req, res) =>
     controller.delete(getParams(req), res, db)
   );
-  app.post('/news_internal', (req, res) => controller.save(getParams(req), res, db));
+  app.post('/news_internal', (req, res) =>
+    controller.save(getParams(req), res, db)
+  );
   app.put('/news_internal/:id', (req, res) =>
     controller.update(getParams(req), res, db)
   );

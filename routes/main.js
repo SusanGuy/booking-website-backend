@@ -26,9 +26,9 @@ const html = `
   </html>
 `;
 
-module.exports = app => {
+module.exports = ({ app, logger }) => {
   app.get('/', (request, response) => {
-    console.log('requested');
+    logger.emit('follow', { from: 'userA', to: 'userB' });
     response.send(html);
   });
 };

@@ -11,9 +11,11 @@ const getParams = req => {
   };
 };
 
-module.exports = (app, db) => {
+module.exports = ({ app, db }) => {
   app.get('/payment', (req, res) => controller.getAll(getParams(req), res, db));
-  app.get('/payment/:id', (req, res) => controller.get(getParams(req), res, db));
+  app.get('/payment/:id', (req, res) =>
+    controller.get(getParams(req), res, db)
+  );
   app.delete('/payment/:id', (req, res) =>
     controller.delete(getParams(req), res, db)
   );

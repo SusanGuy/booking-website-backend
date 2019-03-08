@@ -6,8 +6,14 @@ const googleMapsClient = require('@google/maps').createClient({
 });
 
 module.exports = {
-  fetchGoogleAutoCompleteAPI: (req, res) => {
+  fetchGoogleAutoCompleteAPI: (req, res, logger) => {
     const input = req.body.place;
+
+    logger.log({
+      level: 'verbose',
+      message: `fetchGoogleAutoCompleteAPI. Start fetching for: ${input}`,
+    });
+
     https
       .get(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${
@@ -26,6 +32,10 @@ module.exports = {
         }
       )
       .on('error', err => {
+        logger.log({
+          level: 'error',
+          message: err.message,
+        });
         res.json(err.message);
       });
   },
