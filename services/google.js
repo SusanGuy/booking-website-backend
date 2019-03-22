@@ -10,7 +10,7 @@ module.exports = {
     const input = req.body.place;
 
     logger.log({
-      level: 'verbose',
+      level: 'info',
       message: `fetchGoogleAutoCompleteAPI. Start fetching for: ${input}`,
     });
 
