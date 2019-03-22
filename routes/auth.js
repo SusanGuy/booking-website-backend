@@ -31,7 +31,7 @@ module.exports = ({ app, db, logger }) => {
 
       logger.log({
         level: 'info',
-        message: `/auth/google response for ${req.user}`,
+        message: `/auth/google response for JSON.stringy(${req.user})`,
       });
 
       req.auth = {
@@ -44,6 +44,27 @@ module.exports = ({ app, db, logger }) => {
     sendToken
   );
   app.get('/api/logout', (req, res) => {
+    req.logout();
+    res.send(req.user);
+  });
+  app.get('/api/login/:username/:password', (req, res) => {
+    const { username, password } = req.params;
+
+    if (username === 'susan' && password === '123') {
+      res.send('Authenticated');
+    } else {
+      res.send('User not found');
+    }
+
+    // Check if username, password exists in DB
+
+    // IF exists
+    // return user, with SUCCESS
+    // Store JWT
+    // ELSE
+    // return error, status 200
+    // res.status(200).send('User does not exist');
+
     req.logout();
     res.send(req.user);
   });
