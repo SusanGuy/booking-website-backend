@@ -11,7 +11,7 @@ module.exports = reqParams => {
     forum: require('./forum')(reqParams),
     invoice: require('./invoice')(reqParams),
     news_internal: require('./news_internal')(reqParams),
-    paypal: require('./paypal')(reqParams),
+    pay: require('./pay')(reqParams),
     payment: require('./payment')(reqParams),
     rate: require('./rate')(reqParams),
     story: require('./story')(reqParams),
