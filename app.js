@@ -21,9 +21,9 @@ const logger = createLogger({
     colorize(),
     label({
       label:
-        process.env.NODE_ENV === 'development'
-          ? 'heritage-dev'
-          : 'heritage-prod',
+        process.env.NODE_ENV === 'production'
+          ? 'heritage-prod'
+          : 'heritage-dev',
     }),
     timestamp(),
     prettyPrint()
