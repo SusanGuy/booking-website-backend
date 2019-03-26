@@ -47,6 +47,18 @@ module.exports = ({ app, db, logger }) => {
     req.logout();
     res.send(req.user);
   });
+  app.post('/api/signup', (req, res) => {
+    const { email, first_name, last_name, password } = req.body;
+
+    const user = {
+      email,
+      first_name,
+      last_name,
+      password,
+    };
+
+    res.status(200).json({ data: 'success', user: user });
+  });
   app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
 
