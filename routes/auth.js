@@ -47,17 +47,23 @@ module.exports = ({ app, db, logger }) => {
     req.logout();
     res.send(req.user);
   });
-  app.get('/api/login/:username/:password', (req, res) => {
-    const { username, password } = req.params;
+  app.post('/api/login', (req, res) => {
+    const { email, password } = req.body;
 
-    if (username === 'susan' && password === '123') {
-      res.send('Authenticated');
-    } else {
-      res.send('User not found');
-    }
+    logger.log({
+      level: 'info',
+      message: `/api/login for ${email}`,
+    });
 
+    const user = {
+      first_name: 'Test',
+      last_name: 'User',
+    };
+
+    /**
+     * PSEUDOCODE
+     */
     // Check if username, password exists in DB
-
     // IF exists
     // return user, with SUCCESS
     // Store JWT
@@ -65,8 +71,7 @@ module.exports = ({ app, db, logger }) => {
     // return error, status 200
     // res.status(200).send('User does not exist');
 
-    req.logout();
-    res.send(req.user);
+    res.status(200).json({ data: user });
   });
   app.post('/auth/verify', (req, res) => {
     let token = req.body.token;

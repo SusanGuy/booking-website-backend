@@ -66,9 +66,8 @@ module.exports = {
     let section = params.path.section;
     let id_clause = params.path.id_clause;
 
-    db.query(
-      `DELETE FROM ${section} WHERE ${id_clause}`,
-      (err, results) => handleApiResults(err, results, res, section)
+    db.query(`DELETE FROM ${section} WHERE ${id_clause}`, (err, results) =>
+      handleApiResults(err, results, res, section)
     );
   },
   save: (params, res, db) => {
